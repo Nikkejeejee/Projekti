@@ -6,7 +6,7 @@ conn = mysql.connector.connect(
     port=3306,
     database='projekti',
     user='root',
-    password='SALASANA', # LAITA TÄHÄN SALASANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    password='sunmuts1s',
     autocommit=True
 )
 
@@ -97,12 +97,12 @@ elif difficulty_level == HARD:
     min_tickets = 3
     max_tickets = 5
 else:
-    # Oletusasetus on EASY, jos vaikeustaso on virheellinen
+    # Default to EASY if difficulty level is invalid
     min_tickets = 7
     max_tickets = 10
 
 # Vaikeustaso ja lentolippujen määrä
-initial_tickets = difficulty_level * 2 + 1
+initial_tickets = random.randint(min_tickets, max_tickets)
 print(f"\nValitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.")
 
 intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n"\
@@ -193,7 +193,7 @@ while initial_tickets > 0:
         for i, place in enumerate(places, start=1):
             print(f"{i}. {place['Airport']} ({place['Country']})")
 
-        travel_choice = input("Valintasi (1/2/.../n): ")
+        travel_choice = input("Valintasi (1/2/.../jne.): ")
         try:
             travel_choice = int(travel_choice)
             if 1 <= travel_choice <= len(places):

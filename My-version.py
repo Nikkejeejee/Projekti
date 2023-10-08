@@ -108,7 +108,7 @@ else:
     max_tickets = 10
 
 # Vaikeustaso ja lentolippujen määrä
-initial_tickets = difficulty_level * 2 + 1
+initial_tickets = random.randint(min_tickets, max_tickets)
 print(f"\nValitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.")
 
 intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n" \
