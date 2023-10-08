@@ -190,7 +190,8 @@ chosen_foods = random.sample(nostalgic_foods, foods)
 nostalgiaruokalista = chosen_foods
 for i, food in enumerate(chosen_foods, start=1):
     print(f"{i}. {food}")
-print(bordered(f" Aloituspaikkasi on: {player_location['Airport']} ({player_location['Country']}). Sinulla on {money}€ "))
+print(bordered(f" Aloituspaikkasi on: {player_location['Airport']}"
+               f"({player_location['Country']}). Sinulla on {money}€ "))
 
 nostalgic_foods_eaten = set()
 print("Peli alkaa!")
@@ -209,8 +210,7 @@ while initial_tickets > 0:
     choice = input("\nValintasi (1/2/3): ")
 
     if choice == "1":
-        # Pelaaja haluaa syödä
-        country = player_location['Country']  # Define 'country' here
+        country = player_location['Country']
         food_list = fetch_food(country)
 
         if len(food_list) >= 2:
@@ -269,11 +269,9 @@ while initial_tickets > 0:
         except ValueError:
             print("Virheellinen syöte.")
 
-        # Vähentää lippumäärän
         initial_tickets -= 1
 
     elif choice == "2":
-        # Pelaaja haluaa tehdä töitä
         work_list = fetch_work()
         money_list = fetch_work_pay()
         if len(work_list) >= 2:
