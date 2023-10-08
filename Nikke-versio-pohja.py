@@ -6,7 +6,7 @@ conn = mysql.connector.connect(
     port=3306,
     database='projekti',
     user='root',
-    password='sunmuts1s',
+    password='SALASANA', # LAITA TÄHÄN SALASANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     autocommit=True
 )
 

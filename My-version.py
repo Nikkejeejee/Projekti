@@ -10,6 +10,7 @@ conn = mysql.connector.connect(
     autocommit=True
 )
 
+
 # Funktioiden määritelmät, joita on otettu tietokannalta
 def fetch_nostalgic_foods():
     cursor = conn.cursor(dictionary=True)
@@ -17,12 +18,14 @@ def fetch_nostalgic_foods():
     result = cursor.fetchall()
     return [row['Foodlist'] for row in result]
 
+
 def fetch_places():
     sql = """SELECT Airport, Country FROM places;"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
     return result
+
 
 def fetch_food(country):
     sql = f"""SELECT Foodlist FROM food WHERE Country = '{country}';"""
@@ -32,6 +35,7 @@ def fetch_food(country):
     food_list = [row['Foodlist'] for row in result]
     return food_list
 
+
 def fetch_work():
     sql = """SELECT work_places FROM work;"""
     cursor = conn.cursor(dictionary=True)
@@ -39,6 +43,7 @@ def fetch_work():
     result = cursor.fetchall()
     work_list = [row['work_places'] for row in result]
     return work_list
+
 
 def bordered(text):
     lines = text.splitlines()
@@ -48,6 +53,7 @@ def bordered(text):
         res.append('│' + (s + ' ' * width)[:width] + '│')
     res.append('└' + '─' * width + '┘')
     return '\n'.join(res)
+
 
 # Pelin intro
 print("████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████  ")
@@ -105,15 +111,14 @@ else:
 initial_tickets = difficulty_level * 2 + 1
 print(f"\nValitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.")
 
-intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n"\
-             "\n Olet sairas.\n"\
-             "\n Kyllä luit oikein. Olet sairas.\n"\
-             "\n Sairastat tautia nimeltään muistimakutauti.\n"\
-             f" Hyvä asia on kuitenkin se, että olet voittanut {initial_tickets} lentolippua. \n"\
-             " Haluat syödä nostalgista ruokaa ennen kuin sairaus syö sinut. \n"\
+intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n" \
+             "\n Olet sairas.\n" \
+             "\n Kyllä luit oikein. Olet sairas.\n" \
+             "\n Sairastat tautia nimeltään muistimakutauti.\n" \
+             f" Hyvä asia on kuitenkin se, että olet voittanut {initial_tickets} lentolippua. \n" \
+             " Haluat syödä nostalgista ruokaa ennen kuin sairaus syö sinut. \n" \
              " Matkustat siis ympäri maailmaa syödäksesi nämä ruuat."
 print(bordered(intro_text))
-
 
 places = fetch_places()
 player_location = random.choice(places)
