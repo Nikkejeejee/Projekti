@@ -4,29 +4,13 @@ import random
 conn = mysql.connector.connect(
     host='localhost',
     port=3306,
-    database='p3',
+    database='projekti',
     user='root',
-    password='sunmuts1s',  # LAITA TÄHÄN SALASANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    password='salasanasi on salainen :D',  # LAITA TÄHÄN SALASANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     autocommit=True
 )
 
-airplane = """                      
-            ____
-  |        | ___\          /~~~|
- _:_______|/'(..)`\_______/  | |
-<_|``````  \__~~__/RYHMÄ G___|_|
-  :\_____(=========,(*),--\__|_/
-  |       \       /---'
-           | (*) /
-           |____/
-"""
-intro_banner = """
-████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████     ██
-   ██    ██      ██   ██ ██    ██ ██         ██    ██    ██ ██      ██    ██ ██   ██    ██
-   ██    █████   ██████  ██    ██ █████      ██    ██    ██ ██      ██    ██ ███████    ██
-   ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ 
-   ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██    ██
-"""
+
 # Funktioiden määritelmät, joita on otettu tietokannalta
 def fetch_nostalgic_foods():
     cursor = conn.cursor(dictionary=True)
@@ -36,7 +20,7 @@ def fetch_nostalgic_foods():
 
 
 def fetch_places():
-    sql = """SELECT Lyhenne AS Country_Code, Country_Name AS Country, Airport FROM places;"""
+    sql = """SELECT Airport, Country FROM places;"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -44,7 +28,7 @@ def fetch_places():
 
 
 def fetch_food(country):
-    sql = f"""SELECT Lyhenne AS Country_Code, Country_Name AS Country, Foodlist, Cost FROM food WHERE Country_Name = '{country}';"""
+    sql = f"""SELECT Foodlist FROM food WHERE Country = '{country}';"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -99,23 +83,20 @@ def bordered(text):
 
 
 # Pelin intro
-print(intro_banner)
+print("████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████  ")
+print("   ██    ██      ██   ██ ██    ██ ██         ██    ██    ██ ██      ██    ██ ██   ██ ")
+print("   ██    █████   ██████  ██    ██ █████      ██    ██    ██ ██      ██    ██ ███████ ")
+print("   ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ ")
+print("   ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██ ")
 print("...nostalgiseen ruokapeliin! ")
-print(airplane)
 
 rules_ans = input("\nHaluatko käydä läpi pelin säännöt? Kyllä/Ei: ")
-
-while rules_ans.lower() not in ["kyllä", "ei"]:
-    print("Virheellinen syöte. Anna 'Kyllä' tai 'Ei'.")
-    rules_ans = input("\nHaluatko käydä läpi pelin säännöt? Kyllä/Ei: ")
 
 if rules_ans.lower() == "kyllä":
     rules = (" Sinulle annetaan vaikeustason mukaan tietty määrä lentolippuja.\n"
              " Pelin alussa sinulle kerrotaan nostalgiset ruuat, joita sinun tulee syödä.\n"
              " Kuolet, kun et saa syötyä nostalgisia ruokiasi ja/tai lentolippu on loppuun käytetty. ")
     print(bordered(rules))
-else:
-    print("𝐍𝐨𝐰 𝐥𝐨𝐚𝐝𝐢𝐧𝐠. . .(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧")
 
 # Pelin alussa kysyy nimeä ja vaikeustasoa
 
@@ -146,7 +127,7 @@ elif difficulty_level == HARD:
 
 # Vaikeustaso ja lentolippujen määrä
 initial_tickets = tickets * 2 + 1
-print(f"\n   Valitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.\n")
+print(f"\nValitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.")
 
 intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n" \
              "\n Olet sairas.\n" \
@@ -163,7 +144,7 @@ game_won = False
 player_location = random.choice(places)
 money = 50
 
-input("\nPaina 'Enter' aloittaaksesi pelin...(☉౪ ⊙)")
+input("\nPaina Enter aloittaaksesi pelin...")
 print("\nTässä ovat nostalgiset ruokasi:")
 
 nostalgic_foods = fetch_nostalgic_foods()
