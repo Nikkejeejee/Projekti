@@ -10,7 +10,23 @@ conn = mysql.connector.connect(
     autocommit=True
 )
 
-
+airplane = """                      
+            ____
+  |        | ___\          /~~~|
+ _:_______|/'(..)`\_______/  | |
+<_|``````  \__~~__/RYHMÄ G___|_|
+  :\_____(=========,(*),--\__|_/
+  |       \       /---'
+           | (*) /
+           |____/
+"""
+intro_banner = """
+████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████     ██
+   ██    ██      ██   ██ ██    ██ ██         ██    ██    ██ ██      ██    ██ ██   ██    ██
+   ██    █████   ██████  ██    ██ █████      ██    ██    ██ ██      ██    ██ ███████    ██
+   ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ 
+   ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██    ██
+"""
 # Funktioiden määritelmät, joita on otettu tietokannalta
 def fetch_nostalgic_foods():
     cursor = conn.cursor(dictionary=True)
@@ -83,12 +99,9 @@ def bordered(text):
 
 
 # Pelin intro
-print("████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████  ")
-print("   ██    ██      ██   ██ ██    ██ ██         ██    ██    ██ ██      ██    ██ ██   ██ ")
-print("   ██    █████   ██████  ██    ██ █████      ██    ██    ██ ██      ██    ██ ███████ ")
-print("   ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ ")
-print("   ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██ ")
+print(intro_banner)
 print("...nostalgiseen ruokapeliin! ")
+print(airplane)
 
 rules_ans = input("\nHaluatko käydä läpi pelin säännöt? Kyllä/Ei: ")
 
@@ -102,7 +115,7 @@ if rules_ans.lower() == "kyllä":
              " Kuolet, kun et saa syötyä nostalgisia ruokiasi ja/tai lentolippu on loppuun käytetty. ")
     print(bordered(rules))
 else:
-    print("Ladataan peliä...(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧")
+    print("𝐍𝐨𝐰 𝐥𝐨𝐚𝐝𝐢𝐧𝐠. . .(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧")
 
 # Pelin alussa kysyy nimeä ja vaikeustasoa
 
@@ -133,7 +146,7 @@ elif difficulty_level == HARD:
 
 # Vaikeustaso ja lentolippujen määrä
 initial_tickets = tickets * 2 + 1
-print(f"\nValitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.")
+print(f"\n   Valitsit vaikeustason {difficulty_level}. Sinulla on alussa {initial_tickets} lentolippua.\n")
 
 intro_text = f" ZZUPP {username}! Oletko valmis pelaamaan nostalgia ruokapeliä?\n" \
              "\n Olet sairas.\n" \
@@ -150,7 +163,7 @@ game_won = False
 player_location = random.choice(places)
 money = 50
 
-input("\nPaina Enter aloittaaksesi pelin...")
+input("\nPaina 'Enter' aloittaaksesi pelin...(☉౪ ⊙)")
 print("\nTässä ovat nostalgiset ruokasi:")
 
 nostalgic_foods = fetch_nostalgic_foods()
