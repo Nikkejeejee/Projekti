@@ -99,6 +99,11 @@ def bordered(text):
     return '\n'.join(res)
 
 
+def start_game():
+    input("\nPaina 'Enter' aloittaaksesi pelin...(☉౪ ⊙)")
+    print("\nTässä ovat nostalgiset ruokasi:")
+
+
 # Pelin intro
 print(intro_banner)
 print("...nostalgiseen ruokapeliin! ")
@@ -166,8 +171,7 @@ game_won = False
 player_location = random.choice(places)
 money = 50
 
-input("\nPaina 'Enter' aloittaaksesi pelin...(☉౪ ⊙)")
-print("\nTässä ovat nostalgiset ruokasi:")
+start_game()
 
 nostalgic_foods = fetch_nostalgic_foods()
 foods = difficulty_level + 1
@@ -175,7 +179,7 @@ chosen_foods = random.sample(nostalgic_foods, foods)
 nostalgiaruokalista = chosen_foods
 for i, food in enumerate(chosen_foods, start=1):
     print(f"{i}. {food}")
-print(f"- Aloituspaikkasi on {player_location['Airport']} ({player_location['Country']}). Sinulla on {money}€ -")
+print(bordered(f" Aloituspaikkasi on: {player_location['Airport']} ({player_location['Country']}). Sinulla on {money}€ "))
 
 nostalgic_foods_eaten = set()
 print("Peli alkaa!")
@@ -200,22 +204,18 @@ while initial_tickets > 0:
         food_list = fetch_food(country)
 
         if len(food_list) >= 2:
-            # Valitsee ruokavaihtoehdot
             ravintola_foods = []
             food_on_sale = random.randint(2, 3)
-            food_sold = 0
-            other_countries = [place['Country'] for place in places if place['Country'] == country]
-            random_country = random.choice(other_countries)
-            other_food_list = fetch_food(random_country)
-            ravintola_foods.extend(random.sample(other_food_list, 1))
-            while food_sold < food_on_sale:
-                other_countries = [place['Country'] for place in places if place['Country'] != country]
+            other_countries = [place['Country'] for place in places if place['Country'] != country]
+
+            while len(ravintola_foods) < food_on_sale:
                 random_country = random.choice(other_countries)
                 other_food_list = fetch_food(random_country)
                 valittu_ruoka = random.choice(other_food_list)
+
                 if valittu_ruoka not in ravintola_foods:
-                    ravintola_foods.extend(random.sample(other_food_list, 1))
-                    food_sold += 1
+                    ravintola_foods.append(valittu_ruoka)
+
             ravintola_foods.append("Lähde syömättä")
 
         print("\nValitse ruoka, jota syöt:")
@@ -238,16 +238,16 @@ while initial_tickets > 0:
         if satunnainen_tapahtuma == 1:
             events = fetch_event()
             print("Syömisen jälkeen kohtasit satunnaisen tapahtuman!")
-            print("Tapahtuma: " + random.choice(events))
+            print("Satunnainen tapahtuma: " + random.choice(events))
 
-        input("\nMatkusta seuraavalle kentälle jatkaaksesi... (paina enter)")
+        input("\nMatkusta seuraavalle kentälle jatkaaksesi... (paina 'Enter')")
         random_places = random.sample([place for place in places if place not in visited_places],
                                       random.randint(3, min(5, len(places))))
         print("Valitse seuraava lentokenttä:")
         for i, place in enumerate(random_places, start=1):
             print(f"{i}. {place['Airport']} ({place['Country']})")
 
-        travel_choice = input("Valintasi (1/2/.../n): ")
+        travel_choice = input("Valintasi (1/2/.../jne.): ")
         try:
             travel_choice = int(travel_choice)
             if 1 <= travel_choice <= len(random_places):
@@ -294,14 +294,14 @@ while initial_tickets > 0:
             events = fetch_event()
             print("Tapahtuma: " + random.choice(events))
 
-        input("\nMatkusta seuraavalle kentälle jatkaaksesi... (paina enter)")
+        input("\nMatkusta seuraavalle kentälle jatkaaksesi... (paina 'Enter')")
         random_places = random.sample([place for place in places if place not in visited_places],
                                       random.randint(3, min(5, len(places))))
         print("Valitse seuraava lentokenttä:")
         for i, place in enumerate(random_places, start=1):
             print(f"{i}. {place['Airport']} ({place['Country']})")
 
-        travel_choice = input("Valintasi (1/2/.../n): ")
+        travel_choice = input("Valintasi (1/2/.../jne.): ")
         try:
             travel_choice = int(travel_choice)
             if 1 <= travel_choice <= len(random_places):
@@ -313,7 +313,7 @@ while initial_tickets > 0:
         except ValueError:
             print("Virheellinen syöte.")
     elif choice == "3":
-        print("- Tämänhetkinen tilanteesi -")
+        print("Tämänhetkinen tilanteesi: \n")
         print("Ruoat jotka sinun täytyy syödä:")
         for i, food in enumerate(chosen_foods, start=1):
             print(f"{i}. {food}")
