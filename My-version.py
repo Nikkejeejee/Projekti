@@ -12,14 +12,15 @@ conn = mysql.connector.connect(
 
 airplane = """                      
             ____
-  |        | ___\          /~~~|
- _:_______|/'(..)`\_______/  | |
-<_|``````  \__~~__/RYHMÄ G___|_|
-  :\_____(=========,(*),--\__|_/
-  |       \       /---'
+  |        | ___\\          /~~~|
+ _:_______|/'(..)`\\_______/  | |
+<_|``````  \\__~~__/RYHMÄ G___|_|
+  :\\_____(=========,(*),--\\__|_/
+  |       \\       /---'
            | (*) /
            |____/
 """
+
 intro_banner = """
 ████████ ███████ ██████  ██    ██ ███████ ████████ ██    ██ ██       ██████   █████     ██
    ██    ██      ██   ██ ██    ██ ██         ██    ██    ██ ██      ██    ██ ██   ██    ██
@@ -27,6 +28,8 @@ intro_banner = """
    ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ 
    ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██    ██
 """
+
+
 # Funktioiden määritelmät, joita on otettu tietokannalta
 def fetch_nostalgic_foods():
     cursor = conn.cursor(dictionary=True)
@@ -44,21 +47,19 @@ def fetch_places():
 
 
 def fetch_food(country):
-    sql = f"""SELECT Lyhenne AS Country_Code, Country_Name AS Country, Foodlist, Cost FROM food WHERE Country_Name = '{country}';"""
+    sql = f"""SELECT Foodlist FROM food WHERE Country_Name = %s;"""
     cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    food_list = [row['Foodlist'] for row in result]
-    return food_list
+    cursor.execute(sql, (country,))
+    return [row['Foodlist'] for row in cursor.fetchall()]
 
 
 def fetch_foodprice(country):
-    sql = f"""SELECT Cost FROM food WHERE Country = '{country}';"""
+    sql = f"""SELECT Cost FROM food WHERE Country_Name = %s;"""
     cursor = conn.cursor(dictionary=True)
-    cursor.execute(sql)
+    cursor.execute(sql, (country,))
     result = cursor.fetchall()
-    food_Cost = [row['Cost'] for row in result]
-    return food_Cost
+    food_cost = [row['Cost'] for row in result]
+    return food_cost
 
 
 def fetch_work():
@@ -80,7 +81,7 @@ def fetch_work_pay():
 
 
 def fetch_event():
-    sql = """SELECT Satunnaiset_tapahtumat FROM event""";
+    sql = """SELECT Satunnaiset_tapahtumat FROM event;"""
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -123,6 +124,8 @@ else:
 EASY = 1
 MEDIUM = 2
 HARD = 3
+tickets = 0
+ravintola_foods = []
 
 username = input("Syötä pelaaja nimesi: ")
 
@@ -177,6 +180,8 @@ print(f"- Aloituspaikkasi on {player_location['Airport']} ({player_location['Cou
 nostalgic_foods_eaten = set()
 print("Peli alkaa!")
 # Pelilööppi
+
+# Pelilööppi
 while initial_tickets > 0:
     if nostalgic_foods_eaten == set(chosen_foods):
         game_won = True
@@ -191,7 +196,7 @@ while initial_tickets > 0:
 
     if choice == "1":
         # Pelaaja haluaa syödä
-        country = player_location['Country']
+        country = player_location['Country']  # Define 'country' here
         food_list = fetch_food(country)
 
         if len(food_list) >= 2:
@@ -236,7 +241,8 @@ while initial_tickets > 0:
             print("Tapahtuma: " + random.choice(events))
 
         input("\nMatkusta seuraavalle kentälle jatkaaksesi... (paina enter)")
-        random_places = random.sample([place for place in places if place not in visited_places], random.randint(3, min(5, len(places))))
+        random_places = random.sample([place for place in places if place not in visited_places],
+                                      random.randint(3, min(5, len(places))))
         print("Valitse seuraava lentokenttä:")
         for i, place in enumerate(random_places, start=1):
             print(f"{i}. {place['Airport']} ({place['Country']})")

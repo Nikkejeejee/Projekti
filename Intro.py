@@ -1,19 +1,39 @@
-def bordered(text):
-    lines = text.splitlines()
-    width = max(len(s) for s in lines)
-    res = ['┌' + '─' * (width + 2) + '┐']
-    for s in lines:
-        res.append('│ ' + (s + ' ' * width)[:width] + ' │')
-    res.append('└' + '─' * (width + 2) + '┘')
-    return '\n'.join(res)
 
-sairas = "˚‧º·sairas‧º·˚"
+# Pelilööppi
+while initial_tickets > 0:
+    if nostalgic_foods_eaten == set(chosen_foods):
+        game_won = True
+        break
+    print("\nEtsitään töitä ja ruokapaikkoja...")
+    print("\nMitä haluaisit tehdä?")
+    print("1. Syö ravintolassa")
+    print("2. Työskentele")
+    print("3. Tarkista tilanteesi")
 
-intro_text = f" ZZUPP loser! Oletko valmis pelaamaan nostalgia ruokapeliä?\n" \
-             "\n Olet sairas.\n" \
-             f"\n Kyllä luit oikein. Olet sairas.\n" \
-             "\n Sairastat tautia nimeltään muistimakutauti.\n" \
-             f" Hyvä asia on kuitenkin se, että olet voittanut 15 lentolippua. \n" \
-             " Haluat syödä nostalgista ruokaa ennen kuin sairaus syö sinut. \n" \
-             " Matkustat siis ympäri maailmaa syödäksesi nämä ruuat."
-print(bordered(intro_text))
+    choice = input("\nValintasi (1/2/3): ")
+
+    if choice == "1":
+        # Pelaaja haluaa syödä
+        country = player_location['Country']  # Define 'country' here
+        food_list = fetch_food(country)
+
+        if len(food_list) >= 2:
+            # Valitsee ruokavaihtoehdot
+            ravintola_foods = []
+            food_on_sale = random.randint(2, 3)
+            food_sold = 0
+            other_countries = [place['Country'] for place in places if place['Country'] == country]
+            random_country = random.choice(other_countries)
+            other_food_list = fetch_food(random_country)
+            ravintola_foods.extend(random.sample(other_food_list, 1))
+            while food_sold < food_on_sale:
+                other_countries = [place['Country'] for place in places if place['Country'] != country]
+                random_country = random.choice(other_countries)
+                other_food_list = fetch_food(random_country)
+                valittu_ruoka = random.choice(other_food_list)
+                if valittu_ruoka not in ravintola_foods:
+                    ravintola_foods.extend(random.sample(other_food_list, 1))
+                    food_sold += 1
+            ravintola_foods.append("Lähde syömättä")
+
+        # Rest of the code remains the same
