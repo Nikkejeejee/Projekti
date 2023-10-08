@@ -55,7 +55,7 @@ print("   ██    ██      ██   ██ ██    ██ ██         
 print("   ██    █████   ██████  ██    ██ █████      ██    ██    ██ ██      ██    ██ ███████ ")
 print("   ██    ██      ██   ██  ██  ██  ██         ██    ██    ██ ██      ██    ██ ██   ██ ")
 print("   ██    ███████ ██   ██   ████   ███████    ██     ██████  ███████  ██████  ██   ██ ")
-print("...nostalgiseen ruokapeliin!")
+print("...nostalgiseen ruokapeliin! ")
 
 rules_ans = input("\nHaluatko käydä läpi pelin säännöt? Kyllä/Ei: ")
 
